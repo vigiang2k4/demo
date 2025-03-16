@@ -4,18 +4,18 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Product;
 use App\Repositories\ProductRepositoryInterface;
-use Illuminate\Pagination\LengthAwarePaginator;
+
 
 class ProductRepository implements ProductRepositoryInterface
 {
-    public function getAll(): LengthAwarePaginator
+    public function getAll()
     {
         return Product::with('category')->latest()->paginate(10);
     }
 
     public function findById(int $id): ?Product
     {
-        return Product::find($id);
+        return Product::findOrFail($id);
     }
 
     public function create(array $data): Product

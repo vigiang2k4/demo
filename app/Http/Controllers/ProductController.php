@@ -27,7 +27,7 @@ class ProductController extends Controller
 
     public function create(): View
     {
-        $categories = $this->categoryRepo->getAll(); // Lấy danh sách danh mục
+        $categories = $this->categoryRepo->getAll();
         return view('products.create', compact('categories'));
     }
 
