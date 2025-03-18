@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
-use App\Repositories\CategoryRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -35,7 +35,7 @@ class CategoryController extends Controller
     {
         try {
             $data = $request->getImage();
-            
+
             $this->categoryRepo->create($data);
     
             return redirect()->route('categories.index')->with('success', 'Danh mục đã được tạo thành công.');

@@ -1,40 +1,35 @@
-@extends('master')
+@extends('admin.layout.master')
 
-@section('tilte')
-    index
-@endsection
-
+@section('title', 'Danh sách sản phẩm')
 
 @section('content')
-    <h1 class="text-center mt-5">Danh sách sản phẩm</h1>
+    <h1 class="text-center m-5">Danh sách sản phẩm</h1>
+    <a href="{{ route('products.create') }}" class="btn btn-primary m-3">Thêm sản phẩm</a>
 
-    <a href="{{ route('products.create') }}" class="btn btn-primary mt-5">Thêm sản phẩm</a>
-
-    <table class="table mt-5">
+    <table class="table table-bordered">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Tên</th>
                 <th>Danh mục</th>
-                <th>Hinh anh</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
+                <th>Ảnh</th>
+                <th>Mô tả</th>
                 <th>Hành động</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($products as $product)
+            @foreach($products as $product)
                 <tr>
                     <td>{{ $product->id }}</td>
                     <td>{{ $product->name }}</td>
-                    <td>{{ $product->category?->name ?? 'Không có danh mục' }}</td>
-                    <td>{{ $product->avartar }}</td>
-                    <td>{{ $product->price }}</td>
-                    <td>{{ $product->quantity }}</td>
+                    <td>{{ $product->category->name }}</td>
+                    <td><img src="{{ asset('storage/' . $product->avartar) }}" width="50"></td>
+                    <td>{{ $product->description }}</td>
                     <td>
                         <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Sửa</a>
                         <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
-                            @csrf @method('DELETE')
+                            @csrf
+                            @method('DELETE')
                             <button type="submit" class="btn btn-danger">Xóa</button>
                         </form>
                     </td>
@@ -42,6 +37,4 @@
             @endforeach
         </tbody>
     </table>
-
-    {{ $products->links() }}
 @endsection

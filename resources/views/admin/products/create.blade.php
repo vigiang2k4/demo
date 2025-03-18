@@ -1,67 +1,33 @@
-@extends('master')
+@extends('admin.layout.master')
 
-@section('tilte')
-    create
-@endsection
+@section('title', 'Thêm sản phẩm')
 
 @section('content')
-    <h1 class="text-center m-5">Thêm sản phẩm mới</h1>
+    <h1 class="text-center m-5">Thêm mới sản phẩm</h1>
 
-    @if (session('success'))
-        <div class="alert alert-success text-center">{{ session('success') }}</div>
-    @endif
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
         @csrf
 
-        <div class="mb-3">
-            <label class="form-label">Tên sản phẩm</label>
-            <input type="text" name="name" value="{{ old('name') }}" class="form-control" required>
+        <div class="m-3">
+            <label for="name">Tên sản phẩm</label>
+            <input type="text" name="name" class="form-control">
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Danh mục</label>
-            <select name="category_id" class="form-control" required>
-                <option value="">-- Chọn danh mục --</option>
-                @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
+        <div class="m-3">
+            <label for="category_id">Danh mục</label>
+            <select name="category_id" class="form-control">
+                @foreach($categories as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
                 @endforeach
             </select>
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Mô tả</label>
-            <textarea name="description" class="form-control">{{ old('description') }}</textarea>
+        <div class="m-3">
+            <label for="avatar">Hình ảnh</label>
+            <input type="file" name="avartar" class="form-control">
         </div>
 
-        <div class="mb-3">
-            <label class="form-label">Hình ảnh</label>
-            <input type="text" name="avartar" value="{{ old('avartar') }}" class="form-control">
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Giá</label>
-            <input type="number" name="price" value="{{ old('price') }}" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Số lượng</label>
-            <input type="number" name="quantity" value="{{ old('quantity') }}" class="form-control" required>
-        </div>
-
-        <button type="submit" class="btn btn-success">Thêm mới</button>
+        <button type="submit" class="btn btn-success m-3">Thêm</button>
         <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>
     </form>
 @endsection

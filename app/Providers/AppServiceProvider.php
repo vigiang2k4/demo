@@ -2,17 +2,17 @@
 
 namespace App\Providers;
 
-use App\Repositories\CategoryRepositoryInterface;
-use App\Repositories\Eloquent\CategoryRepository;
+use App\Repositories\Category\CategoryRepository;
+use App\Repositories\Category\CategoryRepositoryInterface;
 
-use App\Repositories\ColorRepositoryInterface;
-use App\Repositories\Eloquent\ColorRepository;
+use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\Product\ProductRepository;
 
-use App\Repositories\ProductRepositoryInterface;
-use App\Repositories\Eloquent\ProductRepository;
+use App\Repositories\Variant\ColorRepository;
+use App\Repositories\Variant\ColorRepositoryInterface;
 
-use App\Repositories\SizeRepositoryInterface;
-use App\Repositories\Eloquent\SizeRepository;
+use App\Repositories\Variant\SizeRepository;
+use App\Repositories\Variant\SizeRepositoryInterface;
 
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;

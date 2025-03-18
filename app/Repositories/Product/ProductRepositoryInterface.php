@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Product;
 
-interface ColorRepositoryInterface
+interface ProductRepositoryInterface
 {
     public function getAll();
     public function findById($id);

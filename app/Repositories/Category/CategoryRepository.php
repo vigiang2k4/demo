@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\Category;
 
 use App\Models\Category;
-use App\Repositories\CategoryRepositoryInterface;
+use App\Repositories\Category\CategoryRepositoryInterface;
 
 class CategoryRepository implements CategoryRepositoryInterface
 {

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ColorRequest;
-use App\Repositories\ColorRepositoryInterface;
+use App\Repositories\Variant\ColorRepositoryInterface;
 use Illuminate\Http\Request;
 
 class ColorController extends Controller

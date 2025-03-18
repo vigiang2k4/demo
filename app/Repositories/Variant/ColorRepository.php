@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\Variant;
 
 use App\Models\Color;
-use App\Repositories\ColorRepositoryInterface;
+use App\Repositories\Variant\ColorRepositoryInterface;
 
 class ColorRepository implements ColorRepositoryInterface
 {

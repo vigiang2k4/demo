@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SizeRequest;
-use App\Repositories\SizeRepositoryInterface;
+use App\Repositories\Variant\SizeRepositoryInterface;
 use Illuminate\Http\Request;
 
 class SizeController extends Controller

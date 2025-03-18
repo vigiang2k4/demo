@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\Variant;
 
 use App\Models\Size;
-use App\Repositories\SizeRepositoryInterface;
+use App\Repositories\Variant\SizeRepositoryInterface;
 
 class SizeRepository implements SizeRepositoryInterface
 {
