@@ -23,7 +23,19 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:categories,name',
+            'avartar' => 'required|image|mimes:jpg,jpeg,png|max:10000'
         ];
+    }
+
+    public function getImage()
+    {
+        $data = $this->validated();
+
+        if ($this->hasFile('avartar')) { 
+            $data['avartar'] = $this->file('avartar')->store('categories', 'public'); 
+        }
+
+        return $data;
     }
 
     public function messages()
@@ -33,6 +45,11 @@ class CategoryRequest extends FormRequest
             'name.string' => 'Tên danh mục phải là chuỗi.',
             'name.max' => 'Tên danh mục không được vượt quá 255 ký tự.',
             'name.unique' => 'Danh mục này đã tồn tại.',
+
+            'avartar.required' => 'Ảnh danh mục là bắt buộc.',
+            'avartar.image' => 'Tệp tải lên phải là một hình ảnh.',
+            'avartar.mimes' => 'Ảnh danh mục chỉ được có định dạng jpg, jpeg, png.',
+            'avartar.max' => 'Ảnh danh mục không được vượt quá 10MB.'
         ];
     }
 }

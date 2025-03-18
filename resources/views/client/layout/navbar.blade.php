@@ -11,7 +11,7 @@
 
         <div class="col-12 mb-3 mb-md-0 col-md-4 order-1 order-md-2 text-center">
           <div class="site-logo">
-            <a href="index.html" class="js-logo-clone">Shoppers</a>
+            <a href="{{route('home')}}" class="js-logo-clone">Shoppers</a>
           </div>
         </div>
 
@@ -38,7 +38,7 @@
     <div class="container">
       <ul class="site-menu js-clone-nav d-none d-md-block">
         <li>
-            <a href="">Home</a>
+            <a href="{{route('home')}}">Home</a>
         </li>
         <li class="has-children">
           <a href="$">Categories</a>
@@ -48,9 +48,9 @@
             <li><a href="#">Categories Three</a></li>
           </ul>
         </li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="{{route('shop')}}">Shop</a></li>
+        <li><a href="{{route('about')}}">About</a></li>
+        <li><a href="{{route('contact')}}">Contact</a></li>
       </ul>
     </div>
   </nav>

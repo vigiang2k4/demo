@@ -1,14 +1,11 @@
 <?php
 
 namespace App\Repositories;
-
-use App\Models\Product;
-
 interface ProductRepositoryInterface
 {
     public function getAll();
-    public function findById(int $id): ?Product;
-    public function create(array $data): Product;
-    public function update(int $id, array $data): bool;
-    public function delete(int $id): bool;
+    public function findById(int $id);
+    public function create(array $data);
+    public function update(int $id, array $data);
+    public function delete(int $id);
 }
