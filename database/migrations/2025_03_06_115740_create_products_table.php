@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
             $table->string('description')->nullable();
-            $table->string('avartar')->nullable();
+            $table->string('avatar')->nullable();
             $table->timestamps();
 
             $table->fullText('description');

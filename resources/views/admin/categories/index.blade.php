@@ -26,7 +26,7 @@
                     <td>{{ $category->id }}</td>
                     <td>{{ $category->name }}</td>
                     <td>
-                        <img src="{{ asset('storage/' . $category->avartar) }}" width="100" alt="Ảnh danh mục">
+                        <img src="{{ asset('storage/' . $category->avatar) }}" width="100" alt="Ảnh danh mục">
                     </td>
                     <td class="d-flex">
                         <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-secondary m-3">Sửa</a>

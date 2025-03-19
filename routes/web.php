@@ -22,10 +22,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('client.layout.master');
-});
-
 // Các route cho Account
 Route::controller(AccountController::class)->group(function () {
     // Đăng ký
@@ -83,7 +79,7 @@ Route::controller(UserController::class)->middleware(['user'])->group(function (
 
 // Route cho client
 Route::controller(ClientController::class)->group(function () {
-    Route::get('/home', 'index')->name('home');
+    Route::get('/', 'index')->name('home');
     Route::get('/shop', 'shop')->name('shop');
     Route::get('/about', 'about')->name('about');
     Route::get('/contact', 'contact')->name('contact');

@@ -22,7 +22,7 @@
 
         <div class="m-3">
             <label for="name">Hình ảnh </label>
-            <input type="file" name="avartar" id="" class="form-control mt-3">
+            <input type="file" name="avatar" id="" class="form-control mt-3">
             @if ($errors->has('avatar'))
                 <span class="text-danger">{{ $errors->first('avatar') }}</span>
             @endif

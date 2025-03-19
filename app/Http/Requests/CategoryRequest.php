@@ -23,7 +23,7 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255|unique:categories,name',
-            'avartar' => 'required|image|mimes:jpg,jpeg,png|max:10000'
+            'avatar' => 'required|image|mimes:jpg,jpeg,png|max:10000'
         ];
     }
 
@@ -31,8 +31,8 @@ class CategoryRequest extends FormRequest
     {
         $data = $this->validated();
 
-        if ($this->hasFile('avartar')) { 
-            $data['avartar'] = $this->file('avartar')->store('categories', 'public'); 
+        if ($this->hasFile('avatar')) { 
+            $data['avatar'] = $this->file('avatar')->store('categories', 'public'); 
         }
 
         return $data;
@@ -46,10 +46,10 @@ class CategoryRequest extends FormRequest
             'name.max' => 'Tên danh mục không được vượt quá 255 ký tự.',
             'name.unique' => 'Danh mục này đã tồn tại.',
 
-            'avartar.required' => 'Ảnh danh mục là bắt buộc.',
-            'avartar.image' => 'Tệp tải lên phải là một hình ảnh.',
-            'avartar.mimes' => 'Ảnh danh mục chỉ được có định dạng jpg, jpeg, png.',
-            'avartar.max' => 'Ảnh danh mục không được vượt quá 10MB.'
+            'avatar.required' => 'Ảnh danh mục là bắt buộc.',
+            'avatar.image' => 'Tệp tải lên phải là một hình ảnh.',
+            'avatar.mimes' => 'Ảnh danh mục chỉ được có định dạng jpg, jpeg, png.',
+            'avatar.max' => 'Ảnh danh mục không được vượt quá 10MB.'
         ];
     }
 }

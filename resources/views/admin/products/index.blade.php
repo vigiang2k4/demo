@@ -3,7 +3,9 @@
 @section('title', 'Danh sách sản phẩm')
 
 @section('content')
+
     <h1 class="text-center m-5">Danh sách sản phẩm</h1>
+    
     <a href="{{ route('products.create') }}" class="btn btn-primary m-3">Thêm sản phẩm</a>
 
     <table class="table table-bordered">

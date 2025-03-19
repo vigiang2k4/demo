@@ -6,37 +6,52 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
+use App\Repositories\Variant\ColorRepositoryInterface;
+use App\Repositories\Variant\SizeRepositoryInterface;
 use Illuminate\Http\Request;
+use Throwable;
 
 class ProductController extends Controller
 {
     protected $productRepo;
     protected $categoryRepo;
+    protected $sizeRepo;
+    protected $colorRepo;
 
-    public function __construct(ProductRepositoryInterface $productRepo, CategoryRepositoryInterface $categoryRepo)
-    {
+    public function __construct(
+        ProductRepositoryInterface $productRepo,
+        CategoryRepositoryInterface $categoryRepo,
+        SizeRepositoryInterface $sizeRepo,
+        ColorRepositoryInterface $colorRepo
+    ) {
         $this->productRepo = $productRepo;
         $this->categoryRepo = $categoryRepo;
+        $this->sizeRepo = $sizeRepo;
+        $this->colorRepo = $colorRepo;
     }
 
     public function index()
     {
         $products = $this->productRepo->getAll();
-        return view('products.index', compact('products'));
+        return view('admin.products.index', compact('products'));
     }
 
     public function create()
     {
         $categories = $this->categoryRepo->getAll();
-        return view('products.create', compact('categories'));
+        $colors = $this->colorRepo->getAll();
+        $sizes = $this->sizeRepo->getAll();
+        return view('admin.products.create', compact('categories', 'colors', 'sizes'));
     }
 
     public function store(ProductRequest $request)
     {
         try {
-            $this->productRepo->create($request->validated());
-            return redirect()->route('products.index')->with('success', 'Sản phẩm đã được tạo.');
-        } catch (\Exception $e) {
+            $data = $request->validatedWithImage();
+            $this->productRepo->create($data);
+
+            return redirect()->route('products.index')->with('success', 'Sản phẩm đã được thêm thành công.');
+        } catch (Throwable $e) {
             return back()->with('error', 'Lỗi: ' . $e->getMessage());
         }
     }

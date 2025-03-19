@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <h1 class="text-center m-5">Thêm mới danh mục </h1>
+    <h1 class="text-center m-5">Thêm mới Kích cỡ</h1>
 
     <form action="{{ route('sizes.store') }}" method="post" enctype="multipart/form-data">
         @csrf

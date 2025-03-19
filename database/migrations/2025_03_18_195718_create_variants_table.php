@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Color::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Size::class)->nullable()->constrained()->nullOnDelete();
-            $table->string('avartar')->nullable(); 
+            $table->string('avatar')->nullable(); 
             $table->integer('quantity');
             $table->integer('stock')->default(0);
             $table->bigInteger('price');

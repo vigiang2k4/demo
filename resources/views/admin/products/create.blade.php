@@ -3,31 +3,138 @@
 @section('title', 'Thêm sản phẩm')
 
 @section('content')
-    <h1 class="text-center m-5">Thêm mới sản phẩm</h1>
+    <h1 class="text-center m-5">Thêm Mới Sản Phẩm</h1>
 
     <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
         @csrf
 
-        <div class="m-3">
-            <label for="name">Tên sản phẩm</label>
-            <input type="text" name="name" class="form-control">
+        {{-- Tên sản phẩm --}}
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên sản phẩm</label>
+            <input type="text" name="name" value="{{ old('name') }}"
+                class="form-control @error('name') is-invalid @enderror">
+            @error('name')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
 
-        <div class="m-3">
-            <label for="category_id">Danh mục</label>
-            <select name="category_id" class="form-control">
-                @foreach($categories as $category)
-                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+        {{-- Danh mục --}}
+        <div class="mb-3">
+            <label for="category_id" class="form-label">Danh mục</label>
+            <select name="category_id" class="form-select @error('category_id') is-invalid @enderror">
+                <option value="">Chọn danh mục</option>
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
                 @endforeach
             </select>
+            @error('category_id')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
 
+        {{-- Ảnh đại diện sản phẩm --}}
+        <div class="mb-3">
+            <label class="form-label">Ảnh đại diện sản phẩm</label>
+            <input type="file" name="avatar" class="form-control @error('avatar') is-invalid @enderror">
+            @error('avatar')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        {{-- Bộ sưu tập ảnh --}}
+        <div class="mb-3">
+            <label class="form-label">Bộ sưu tập ảnh</label>
+            <input type="file" name="gallery[]" class="form-control" multiple>
+        </div>
+
+        {{-- Biến thể sản phẩm --}}
+        <div id="variants-container">
+            <label for="variants">Biến thể sản phẩm</label>
+            <div class="variant-item d-flex gap-2 mb-2">
+                <!-- Chọn màu -->
+                <select name="variants[0][color_id]" class="form-select @error('variants.0.color_id') is-invalid @enderror">
+                    <option value="">Chọn màu</option>
+                    @foreach ($colors as $color)
+                        <option value="{{ $color->id }}"
+                            {{ old('variants.0.color_id') == $color->id ? 'selected' : '' }}>
+                            {{ $color->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <!-- Chọn size -->
+                <select name="variants[0][size_id]" class="form-select @error('variants.0.size_id') is-invalid @enderror">
+                    <option value="">Chọn size</option>
+                    @foreach ($sizes as $size)
+                        <option value="{{ $size->id }}"
+                            {{ old('variants.0.size_id') == $size->id ? 'selected' : '' }}>
+                            {{ $size->name }}
+                        </option>
+                    @endforeach
+                </select>
+                <!-- Số lượng -->
+                <input type="number" name="variants[0][quantity]" placeholder="Số lượng"
+                    class="form-control @error('variants.0.quantity') is-invalid valuelue @enderror">
+                <!-- Ảnh đại diện biến thể -->
+                <input type="file" name="variants[0][avatar]"
+                    class="form-control @error('variants.0.avatar') is-invalid @enderror">
+                <button type="button" class="badge badge-danger remove-variant">X</button>
+            </div>
+        </div>
         <div class="m-3">
-            <label for="avatar">Hình ảnh</label>
-            <input type="file" name="avartar" class="form-control">
+            @error('variants')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+            @error('variants.0.color_id')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+            @error('variants.0.size_id')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+            @error('variants.0.quantity')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+            @error('variants.0.avatar')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
 
-        <button type="submit" class="btn btn-success m-3">Thêm</button>
-        <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>
+        <button type="button" id="add-variant" class="btn btn-primary">Thêm biến thể</button>
+
+        {{-- Nút submit --}}
+        <div class="mt-4 text-center">
+            <button type="submit" class="btn btn-success">Thêm mới</button>
+            <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>
+        </div>
     </form>
+
+    {{-- Script thêm/xóa biến thể --}}
+    <script>
+        document.getElementById('add-variant').addEventListener('click', function() {
+            let index = document.querySelectorAll('.variant-item').length;
+            let newVariant = `
+                <div class="variant-item d-flex gap-2 mb-2">
+                    <select name="variants[${index}][color_id]" class="form-select">
+                        <option value="">Chọn màu</option>
+                        @foreach ($colors as $color)
+                            <option value="{{ $color->id }}">{{ $color->name }}</option>
+                        @endforeach
+                    </select>
+    
+                    <select name="variants[${index}][size_id]" class="form-select">
+                        <option value="">Chọn size</option>
+                        @foreach ($sizes as $size)
+                            <option value="{{ $size->id }}">{{ $size->name }}</option>
+                        @endforeach
+                    </select>
+    
+                    <input type="number" name="variants[${index}][quantity]" placeholder="Số lượng" class="form-control">
+                    <input type="file" name="variants[${index}][avatar]" class="form-control">
+                    <button type="button" class="badge badge-danger remove-variant">X</button>
+                </div>`;
+
+            document.getElementById('variants-container').insertAdjacentHTML('beforeend', newVariant);
+        });
+    </script>
 @endsection
