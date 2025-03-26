@@ -25,24 +25,23 @@ use Illuminate\Support\Facades\Route;
 // Các route cho Account
 Route::controller(AccountController::class)->group(function () {
     // Đăng ký
-    Route::get('register', 'register')->name('register.form');
-    Route::post('register', 'register_')->name('register');
-
+    Route::get('register', 'register')->name('register');
+    Route::post('register', 'register_')->name('register_');
     // Đăng nhập
-    Route::get('login', 'login')->name('login.form');
-    Route::post('login', 'login_')->name('login');
-
+    Route::get('login', 'login')->name('login');
+    Route::post('login', 'login_')->name('login_');
+    // Cập nhật tài khoản
+    Route::get('/user/edit', 'edit')->name('edit');
+    Route::post('/user/update', 'update')->name('update');
     // Quên mật khẩu
-    Route::get('password/forgot', 'rspassword')->name('password.forgot.form');
-    Route::post('password/forgot', 'rspassword_')->name('password.forgot');
-
-    // Đặt lại mật khẩu
-    Route::get('password/reset/{token}', 'updatepassword')->name('password.reset');
-    Route::post('password/reset', 'updatepassword_')->name('password.update');
-
+    Route::get('password/forgot', 'forgot')->name('forgot');
+    Route::post('password/forgot', 'forgot_')->name('forgot_');
+    // Đặt lại mật khẩu sau khi send mail
+    Route::get('password/reset/{token}', 'password')->name('password');
+    Route::post('password/reset', 'password_')->name('password_');
     // Xác thực email
     Route::get('/verify', 'verify')->name('verify')->middleware('auth');
-    Route::get('/verify/{id}/{hash}', 'verifydone')->name('verification.verify');
+    Route::get('/verify/{id}/{hash}', 'verifydone')->name('verifydone');
 
     // Đăng xuất
     Route::post('logout', 'logout')->name('logout');
@@ -51,12 +50,6 @@ Route::controller(AccountController::class)->group(function () {
 // Route cho Admin
 Route::controller(AdminController::class)->group(function () {
     Route::get('/admin/dashboard',  'index')->name('admin.dashboard');
-    // Đổi mật khẩu
-    Route::get('/admin/change-password', 'changepass')->name('admin.changepass.form');
-    Route::post('/admin/change-password', 'changepass_')->name('admin.password.change');
-    // Cập nhật tài khoản
-    Route::get('/admin/edit', 'edit')->name('admin.edit');
-    Route::post('/admin/update', 'update')->name('admin.update');
 
     Route::Resource('categories', CategoryController::class);
     Route::Resource('products', ProductController::class);
@@ -67,14 +60,6 @@ Route::controller(AdminController::class)->group(function () {
 // Route cho User
 Route::controller(UserController::class)->middleware(['user'])->group(function () {
     Route::get('/user/dashboard', 'user')->name('user.dashboard');
-    // Đổi mật khẩu
-    Route::get('/user/change-password', 'changepass')->name('user.changepass.form');
-    Route::post('/user/change-password', 'changepass_')->name('user.password.change');
-    // Cập nhật tài khoản
-    Route::get('/user/edit', 'edit')->name('user.edit');
-    Route::post('/user/update', 'update')->name('user.update');
-    //địa chỉ
-
 });
 
 // Route cho client

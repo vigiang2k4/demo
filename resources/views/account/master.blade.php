@@ -1,35 +1,76 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 
 <head>
-    <title>@yield('title')</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <title>@yield('tiltle')</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="{{ asset('account/images/icons/favicon.ico') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('account/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('account/fonts/iconic/css/material-design-iconic-font.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/vendor/animate/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/vendor/css-hamburgers/hamburgers.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/vendor/animsition/css/animsition.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/vendor/select2/select2.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/vendor/daterangepicker/daterangepicker.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/css/util.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('account/css/main.css') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZtj4ZqfK1h6vFhRbNQF8rR2S0q6rvj6aq8qC7EwEsmexjSPh5tOKm84x6Y5W" crossorigin="anonymous">
 </head>
 
 <body>
-    <header>
-        <!-- place navbar here -->
-    </header>
-    <main class="container m-5">
-        @yield('content')
-    </main>
-    <footer>
-        <!-- place footer here -->
-    </footer>
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous">
-    </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-    </script>
+    <div class="limiter">
+        <div class="container-login100" style="background-image: url('{{ asset('account/images/bg-01.jpg') }}');">
+            <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
+                <form class="login100-form validate-form">
+
+                    @yield('content')
+
+                    @if (Request::routeIs('login'))
+                        <div class="txt1 text-center p-t-54 p-b-20">
+                            <span>
+                                Đăng nhập bằng
+                            </span>
+                        </div>
+
+                        <div class="flex-c-m mb-5">
+                            <a href="#" class="login100-social-item bg1">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+
+                            <a href="#" class="login100-social-item bg3">
+                                <i class="fa fa-google"></i>
+                            </a>
+                        </div>
+                    @endif
+
+                    <div class="text-center">
+                        <a href="{{ route('home') }}" class="badge badge-success">Quay lại trang chủ</a>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="dropDownSelect1"></div>
+
+    <script src="{{ asset('account/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('account/vendor/animsition/js/animsition.min.js') }}"></script>
+    <script src="{{ asset('account/vendor/bootstrap/js/popper.js') }}"></script>
+    <script src="{{ asset('account/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('account/vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('account/vendor/daterangepicker/moment.min.js') }}"></script>
+    <script src="{{ asset('account/vendor/daterangepicker/daterangepicker.js') }}"></script>
+    <script src="{{ asset('account/vendor/countdowntime/countdowntime.js') }}"></script>
+    <script src="{{ asset('account/js/main.js') }}"></script>
+
 </body>
 
 </html>

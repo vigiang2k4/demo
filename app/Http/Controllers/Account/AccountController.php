@@ -7,59 +7,52 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function login()
     {
-        //
+        return view('account.login');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function login_()
     {
-        //
+        
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function register()
     {
-        //
+        return view('account.register');
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function register_()
     {
-        //
+        
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        return view('account.edit');
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update()
     {
-        //
+        
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function forgot()
     {
-        //
+        return view('account.forgot');
+    }
+    public function forgot_()
+    {
+        
+    }
+    public function pasword()
+    {
+        return view('account.reset');
+    }
+    public function pasword_()
+    {
+        
+    }
+    public function verify()
+    {
+        
+    }
+    public function verify_()
+    {
+        
     }
 }

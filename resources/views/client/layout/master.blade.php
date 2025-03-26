@@ -19,6 +19,12 @@
 
     <link rel="stylesheet" href="{{ asset('client/css/style.css') }}">
 
+    <style>
+        body {
+            font-family: "Roboto", sans-serif;
+            font-size: 17px;
+        }
+    </style>
 
 </head>
 
