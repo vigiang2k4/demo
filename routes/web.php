@@ -80,6 +80,7 @@ Route::controller(UserController::class)->middleware(['user'])->group(function (
 // Route cho client
 Route::controller(ClientController::class)->group(function () {
     Route::get('/', 'index')->name('home');
+    Route::get('/detail/{id}', 'show')->name('detail');
     Route::get('/shop', 'shop')->name('shop');
     Route::get('/about', 'about')->name('about');
     Route::get('/contact', 'contact')->name('contact');

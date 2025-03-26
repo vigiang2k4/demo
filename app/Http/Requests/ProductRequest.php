@@ -75,24 +75,20 @@ class ProductRequest extends FormRequest
     {
         $data = parent::validated();
 
-        // Xử lý ảnh đại diện sản phẩm
         if ($this->hasFile('avatar')) {
             $data['avatar'] = $this->file('avatar')->store('products', 'public');
         }
 
-        // Xử lý ảnh bộ sưu tập
         if ($this->hasFile('image')) {
             $data['image'] = array_map(fn($file) => $file->store('product_images', 'public'), $this->file('image'));
         }
 
-        // Xử lý ảnh biến thể sản phẩm
         if (!empty($data['variants'])) {
             foreach ($data['variants'] as &$variant) {
-                // Chỉ lưu ảnh nếu có file tải lên
                 if (isset($variant['avatar']) && is_file($variant['avatar'])) {
                     $variant['avatar'] = $variant['avatar']->store('variants', 'public');
                 } else {
-                    unset($variant['avatar']); // Tránh lỗi khi không có ảnh mới
+                    unset($variant['avatar']);
                 }
             }
         }

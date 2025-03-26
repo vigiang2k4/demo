@@ -1,15 +1,18 @@
 @extends('client.layout.master')
 
 @section('title')
-    Detail
+    {{ $product->name }}
 @endsection
 
 @section('content')
     <div class="bg-light py-3">
         <div class="container">
             <div class="row">
-                <div class="col-md-12 mb-0"><a href="index.html">Home</a> <span class="mx-2 mb-0">/</span> <strong
-                        class="text-black">Tank Top T-Shirt</strong></div>
+                <div class="col-md-12 mb-0">
+                    <a href="{{ route('home') }}">Home</a> <span class="mx-2">/</span>
+                    <a href="#">{{ $product->category->name }}</a> <span class="mx-2">/</span>
+                    <strong class="text-black">{{ $product->name }}</strong>
+                </div>
             </div>
         </div>
     </div>
@@ -17,60 +20,68 @@
     <div class="site-section">
         <div class="container">
             <div class="row">
+                <!-- Hình ảnh sản phẩm -->
                 <div class="col-md-6">
-                    <img src="images/cloth_1.jpg" alt="Image" class="img-fluid">
-                </div>
-                <div class="col-md-6">
-                    <h2 class="text-black">Tank Top T-Shirt</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, vitae, explicabo? Incidunt
-                        facere, natus soluta dolores iusto! Molestiae expedita veritatis nesciunt doloremque sint asperiores
-                        fuga voluptas, distinctio, aperiam, ratione dolore.</p>
-                    <p class="mb-4">Ex numquam veritatis debitis minima quo error quam eos dolorum quidem perferendis.
-                        Quos repellat dignissimos minus, eveniet nam voluptatibus molestias omnis reiciendis perspiciatis
-                        illum hic magni iste, velit aperiam quis.</p>
-                    <p><strong class="text-primary h4">$50.00</strong></p>
-                    <div class="mb-1 d-flex">
-                        <label for="option-sm" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio"
-                                    id="option-sm" name="shop-sizes"></span> <span
-                                class="d-inline-block text-black">Small</span>
-                        </label>
-                        <label for="option-md" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio"
-                                    id="option-md" name="shop-sizes"></span> <span
-                                class="d-inline-block text-black">Medium</span>
-                        </label>
-                        <label for="option-lg" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio"
-                                    id="option-lg" name="shop-sizes"></span> <span
-                                class="d-inline-block text-black">Large</span>
-                        </label>
-                        <label for="option-xl" class="d-flex mr-3 mb-3">
-                            <span class="d-inline-block mr-2" style="top:-2px; position: relative;"><input type="radio"
-                                    id="option-xl" name="shop-sizes"></span> <span class="d-inline-block text-black"> Extra
-                                Large</span>
-                        </label>
+                    <div class="mb-3">
+                        <img id="product-avatar" src="{{ asset('storage/' . $product->avatar) }}" alt="{{ $product->name }}"
+                            class="img-fluid" style="max-height: 400px; width: 100%; object-fit: cover;">
                     </div>
-                    <div class="mb-5">
+
+                    <!-- Bộ sưu tập hình ảnh -->
+                    <div class="d-flex flex-wrap">
+                        <img class="small-image mr-2 mb-2" src="{{ asset('storage/' . $product->avatar) }}" alt="Main Image"
+                            width="100" height="60" style="object-fit: cover; cursor: pointer;">
+                        @foreach ($product->images as $image)
+                            <img src="{{ asset('storage/' . $image->image) }}" width="100" height="60"
+                                class="rounded border p-1">
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Thông tin sản phẩm -->
+                <div class="col-md-6">
+                    <h2 class="text-black">{{ $product->name }}</h2>
+                    <p>{{ $product->description }}</p>
+
+                    <!-- Danh sách biến thể theo cặp (Size - Màu) -->
+                    <div class="mb-3">
+                        <label>Chọn biến thể:</label>
+                        <div class="d-flex flex-wrap">
+                            @foreach ($product->variants as $variant)
+                                <button class="btn btn-outline-dark variant-btn mr-2 mb-2"
+                                    data-avatar="{{ asset('storage/' . $variant->avatar) }}"
+                                    data-price="{{ number_format($variant->price, 2) }} VND">
+                                    {{ $variant->size->name }} - {{ $variant->color->name }}
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Hiển thị giá -->
+                    <p><strong class="text-primary h4" id="product-price">
+                            {{ number_format($product->variants->first()->price, 2) }} VND
+                        </strong></p>
+
+                    <!-- Số lượng -->
+                    <div class="mb-4">
                         <div class="input-group mb-3" style="max-width: 120px;">
                             <div class="input-group-prepend">
                                 <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                             </div>
-                            <input type="text" class="form-control text-center" value="1" placeholder=""
-                                aria-label="Example text with button addon" aria-describedby="button-addon1">
+                            <input type="text" class="form-control text-center" value="1">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                             </div>
                         </div>
-
                     </div>
-                    <p><a href="cart.html" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
 
+                    <p><a href="#" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Sản phẩm liên quan -->
     <div class="site-section block-3 site-blocks-2 bg-light">
         <div class="container">
             <div class="row justify-content-center">
@@ -78,72 +89,66 @@
                     <h2>Related Products</h2>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-12">
                     <div class="nonloop-block-3 owl-carousel">
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src="images/cloth_1.jpg" alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Tank Top</a></h3>
-                                    <p class="mb-0">Finding perfect t-shirt</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
+                        @foreach ($relatedProducts as $related)
+                            <div class="item">
+                                <div class="block-4 text-center">
+                                    <figure class="block-4-image">
+                                        <a href="{{ route('detail', $related->id) }}">
+                                            <img src="{{ asset('storage/' . $related->avatar) }}"
+                                                alt="{{ $related->name }}" class="img-fluid"
+                                                style="height: 150px; width: 100%; object-fit: cover;">
+                                        </a>
+                                    </figure>
+                                    <div class="block-4-text p-4">
+                                        <h3><a href="{{ route('detail', $related->id) }}">{{ $related->name }}</a></h3>
+                                        <p class="mb-0">{{ Str::limit($related->description, 50) }}</p>
+                                        @if ($related->variants->count() > 0)
+                                            <p class="text-primary font-weight-bold">
+                                                {{ number_format($related->variants->first()->price, 2) }} VND
+                                            </p>
+                                        @else
+                                            <p class="text-secondary">Chưa có giá</p>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Corater</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src="images/cloth_2.jpg" alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Polo Shirt</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src="images/cloth_3.jpg" alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">T-Shirt Mockup</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <div class="block-4 text-center">
-                                <figure class="block-4-image">
-                                    <img src="images/shoe_1.jpg" alt="Image placeholder" class="img-fluid">
-                                </figure>
-                                <div class="block-4-text p-4">
-                                    <h3><a href="#">Corater</a></h3>
-                                    <p class="mb-0">Finding perfect products</p>
-                                    <p class="text-primary font-weight-bold">$50</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const variantButtons = document.querySelectorAll('.variant-btn');
+            const productAvatar = document.getElementById('product-avatar');
+            const productPrice = document.getElementById('product-price');
+            const smallImages = document.querySelectorAll('.small-image');
+
+            // Sự kiện thay đổi avatar & giá khi chọn biến thể
+            variantButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const newAvatar = this.getAttribute('data-avatar');
+                    const newPrice = this.getAttribute('data-price');
+
+                    productAvatar.src = newAvatar;
+                    productPrice.textContent = newPrice;
+                });
+            });
+
+            // Sự kiện thay đổi avatar khi chọn ảnh từ bộ sưu tập
+            smallImages.forEach(image => {
+                image.addEventListener('click', function() {
+                    productAvatar.src = this.src;
+                });
+            });
+        });
+    </script>
 @endsection

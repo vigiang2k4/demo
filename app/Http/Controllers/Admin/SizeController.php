@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SizeRequest;
 use App\Repositories\Variant\SizeRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class SizeController extends Controller
 {
@@ -18,8 +20,13 @@ class SizeController extends Controller
 
     public function index()
     {
-        $sizes = $this->sizeRepo->getAll();
-        return view('admin.sizes.index', compact('sizes'));
+        try {
+            $sizes = $this->sizeRepo->getAll();
+            return view('admin.sizes.index', compact('sizes'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 
     public function create()
@@ -29,25 +36,45 @@ class SizeController extends Controller
 
     public function store(SizeRequest $request)
     {
-        $this->sizeRepo->create($request->validated());
-        return redirect()->route('sizes.index')->with('success', 'Kích thước đã được thêm.');
+        try {
+            $this->sizeRepo->create($request->validated());
+            return redirect()->route('sizes.index')->with('success', 'Kích thước đã được thêm.');
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 
     public function edit($id)
     {
-        $size = $this->sizeRepo->findById($id);
-        return view('admin.sizes.edit', compact('size'));
+        try {
+            $size = $this->sizeRepo->findById($id);
+            return view('admin.sizes.edit', compact('size'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 
     public function update(SizeRequest $request, $id)
     {
-        $this->sizeRepo->update($id, $request->validated());
-        return redirect()->route('sizes.index')->with('success', 'Kích thước đã được cập nhật.');
+        try {
+            $this->sizeRepo->update($id, $request->validated());
+            return redirect()->route('sizes.index')->with('success', 'Kích thước đã được cập nhật.');
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 
     public function destroy($id)
     {
-        $this->sizeRepo->delete($id);
-        return redirect()->route('sizes.index')->with('success', 'Kích thước đã được xóa.');
+        try {
+            $this->sizeRepo->delete($id);
+            return redirect()->route('sizes.index')->with('success', 'Kích thước đã được xóa.');
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 }

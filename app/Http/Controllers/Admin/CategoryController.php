@@ -35,9 +35,7 @@ class CategoryController extends Controller
     {
         try {
             $data = $request->getImage();
-
             $this->categoryRepo->create($data);
-    
             return redirect()->route('categories.index')->with('success', 'Danh mục đã được tạo thành công.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Lỗi khi tạo danh mục: ' . $e->getMessage());
@@ -48,7 +46,7 @@ class CategoryController extends Controller
     {
         try {
             $category = $this->categoryRepo->findById($id);
-            return view('categories.edit', compact('category'));
+            return view('admin.categories.edit', compact('category'));
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Không tìm thấy danh mục: ' . $e->getMessage());
         }
@@ -68,7 +66,7 @@ class CategoryController extends Controller
     {
         try {
             $this->categoryRepo->delete($id);
-            return redirect()->route('categories.index')->with('success', 'Danh mục đã được xóa.');
+            return redirect()->back()->with('success', 'Danh mục đã được xóa.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Lỗi khi xóa danh mục: ' . $e->getMessage());
         }

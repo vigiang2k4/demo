@@ -18,15 +18,23 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findById($id)
     {
-        return Product::with(['category', 'variants.color', 'variants.size', 'images'])->findOrFail($id);
+        return Product::with([
+            'category',
+            'variants' => function ($query) {
+                $query->orderBy('price', 'asc');
+            },
+            'variants.color',
+            'variants.size',
+            'images'
+        ])->findOrFail($id);
     }
+
 
     public function create($data)
     {
         DB::beginTransaction();
 
         try {
-            // Tạo sản phẩm mới
             $product = Product::create([
                 'name' => $data['name'],
                 'category_id' => $data['category_id'],
@@ -34,14 +42,12 @@ class ProductRepository implements ProductRepositoryInterface
                 'avatar' => $data['avatar'] ?? null,
             ]);
 
-            // Lưu ảnh bộ sưu tập nếu có
             if (!empty($data['image'])) {
                 foreach ($data['image'] as $imagePath) {
                     $product->images()->create(['image' => $imagePath]);
                 }
             }
 
-            // Lưu các biến thể sản phẩm nếu có
             if (!empty($data['variants'])) {
                 foreach ($data['variants'] as $variant) {
                     Variant::create([
@@ -69,7 +75,6 @@ class ProductRepository implements ProductRepositoryInterface
         try {
             $product = Product::findOrFail($id);
 
-            // ✅ Xóa ảnh cũ nếu có ảnh mới
             if (!empty($data['avatar'])) {
                 if (!empty($product->avatar)) {
                     Storage::disk('public')->delete($product->avatar);
@@ -77,7 +82,6 @@ class ProductRepository implements ProductRepositoryInterface
                 $data['avatar'] = $data['avatar']->store('products', 'public');
             }
 
-            // ✅ Cập nhật thông tin sản phẩm
             $product->update([
                 'name' => $data['name'],
                 'category_id' => $data['category_id'],
@@ -85,7 +89,6 @@ class ProductRepository implements ProductRepositoryInterface
                 'avatar' => $data['avatar'] ?? $product->avatar,
             ]);
 
-            // ✅ Xử lý ảnh bộ sưu tập
             if (!empty($data['image'])) {
                 foreach ($data['image'] as $file) {
                     $product->images()->create([
@@ -94,7 +97,6 @@ class ProductRepository implements ProductRepositoryInterface
                 }
             }
 
-            // ✅ Xử lý biến thể
             $existingVariantIds = $product->variants->pluck('id')->toArray();
             $newVariantIds = [];
 
@@ -112,7 +114,6 @@ class ProductRepository implements ProductRepositoryInterface
                         ]
                     );
 
-                    // ✅ Xử lý ảnh của biến thể
                     if (!empty($variantData['avatar'])) {
                         if (!empty($variant->avatar)) {
                             Storage::disk('public')->delete($variant->avatar);
@@ -125,7 +126,6 @@ class ProductRepository implements ProductRepositoryInterface
                 }
             }
 
-            // ✅ Xóa các biến thể không còn tồn tại
             $variantsToDelete = array_diff($existingVariantIds, $newVariantIds);
             if (!empty($variantsToDelete)) {
                 Variant::whereIn('id', $variantsToDelete)->delete();
@@ -146,5 +146,12 @@ class ProductRepository implements ProductRepositoryInterface
             $product = Product::findOrFail($id);
             $product->delete();
         });
+    }
+    public function getRelatedProducts($categoryId, $excludeProductId, $limit = 4)
+    {
+        return Product::where('category_id', $categoryId)
+            ->where('id', '!=', $excludeProductId)
+            ->limit($limit)
+            ->get();
     }
 }

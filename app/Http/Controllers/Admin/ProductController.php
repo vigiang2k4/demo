@@ -40,16 +40,26 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = $this->productRepo->getAll();
-        return view('admin.products.index', compact('products'));
+        try{
+            $products = $this->productRepo->getAll();
+            return view('admin.products.index', compact('products'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 
     public function create()
     {
-        $categories = $this->categoryRepo->getAll();
-        $colors = $this->colorRepo->getAll();
-        $sizes = $this->sizeRepo->getAll();
-        return view('admin.products.create', compact('categories', 'colors', 'sizes'));
+        try{
+            $categories = $this->categoryRepo->getAll();
+            $colors = $this->colorRepo->getAll();
+            $sizes = $this->sizeRepo->getAll();
+            return view('admin.products.create', compact('categories', 'colors', 'sizes'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 
     public function store(ProductRequest $request)
@@ -59,18 +69,22 @@ class ProductController extends Controller
             return redirect()->route('products.index')->with('success', 'Sản phẩm đã được thêm thành công.');
         } catch (Exception $e) {
             Log::error('Lỗi khi thêm sản phẩm: ' . $e->getMessage());
-            return back()->with('error', 'Lỗi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
         }
     }
 
     public function edit(int $id)
     {
-        $product = $this->productRepo->findById($id);
-        $categories = Category::all(); 
-        $colors = Color::all(); 
-        $sizes = Size::all(); 
-
-        return view('admin.products.edit', compact('product', 'categories', 'colors', 'sizes'));
+        try{
+            $product = $this->productRepo->findById($id);
+            $categories = $this->categoryRepo->getAll();
+            $colors = $this->colorRepo->getAll();
+            $sizes = $this->sizeRepo->getAll();
+            return view('admin.products.edit', compact('product', 'categories', 'colors', 'sizes'));
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
+        }
     }
 
     public function update(ProductRequest $request, int $id)
@@ -79,7 +93,7 @@ class ProductController extends Controller
             $this->productRepo->update($id, $request->validated());
             return redirect()->route('products.index')->with('success', 'Sản phẩm đã được cập nhật.');
         } catch (Exception $e) {
-            return back()->with('error', 'Lỗi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
         }
     }
 
@@ -89,7 +103,7 @@ class ProductController extends Controller
             $this->productRepo->delete($id);
             return redirect()->route('products.index')->with('success', 'Sản phẩm đã bị xóa.');
         } catch (Exception $e) {
-            return back()->with('error', 'Lỗi: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
         }
     }
 }
