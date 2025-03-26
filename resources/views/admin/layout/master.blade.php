@@ -34,15 +34,15 @@
             <div class="main-panel">
                 <div class="container mt-3">
 
-                    @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
                         </div>
                     @endif
 
-                    @if (session('success'))
-                        <div class="alert alert-success text-center">
-                            {{ session('success') }}
+                    @if (session('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
                         </div>
                     @endif
 

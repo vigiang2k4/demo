@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
+use App\Models\Category;
+use App\Models\Color;
+use App\Models\Product;
+use App\Models\Size;
+use App\Models\Variant;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Variant\ColorRepositoryInterface;
 use App\Repositories\Variant\SizeRepositoryInterface;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ProductController extends Controller
@@ -47,11 +55,10 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         try {
-            $data = $request->validatedWithImage();
-            $this->productRepo->create($data);
-
+            $this->productRepo->create($request->getvalidated());
             return redirect()->route('products.index')->with('success', 'Sản phẩm đã được thêm thành công.');
-        } catch (Throwable $e) {
+        } catch (Exception $e) {
+            Log::error('Lỗi khi thêm sản phẩm: ' . $e->getMessage());
             return back()->with('error', 'Lỗi: ' . $e->getMessage());
         }
     }
@@ -59,7 +66,11 @@ class ProductController extends Controller
     public function edit(int $id)
     {
         $product = $this->productRepo->findById($id);
-        return view('products.edit', compact('product'));
+        $categories = Category::all(); 
+        $colors = Color::all(); 
+        $sizes = Size::all(); 
+
+        return view('admin.products.edit', compact('product', 'categories', 'colors', 'sizes'));
     }
 
     public function update(ProductRequest $request, int $id)
@@ -67,7 +78,7 @@ class ProductController extends Controller
         try {
             $this->productRepo->update($id, $request->validated());
             return redirect()->route('products.index')->with('success', 'Sản phẩm đã được cập nhật.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return back()->with('error', 'Lỗi: ' . $e->getMessage());
         }
     }
@@ -77,7 +88,7 @@ class ProductController extends Controller
         try {
             $this->productRepo->delete($id);
             return redirect()->route('products.index')->with('success', 'Sản phẩm đã bị xóa.');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return back()->with('error', 'Lỗi: ' . $e->getMessage());
         }
     }

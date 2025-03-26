@@ -4,39 +4,58 @@
 
 @section('content')
 
-    <h1 class="text-center m-5">Danh sách sản phẩm</h1>
-    
-    <a href="{{ route('products.create') }}" class="btn btn-primary m-3">Thêm sản phẩm</a>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Danh sách sản phẩm</h1>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Tên</th>
-                <th>Danh mục</th>
-                <th>Ảnh</th>
-                <th>Mô tả</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($products as $product)
-                <tr>
-                    <td>{{ $product->id }}</td>
-                    <td>{{ $product->name }}</td>
-                    <td>{{ $product->category->name }}</td>
-                    <td><img src="{{ asset('storage/' . $product->avartar) }}" width="50"></td>
-                    <td>{{ $product->description }}</td>
-                    <td>
-                        <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Sửa</a>
-                        <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Xóa</button>
-                        </form>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">
+            <i class="fas fa-plus"></i> Thêm sản phẩm
+        </a>
+
+        <div class="table-responsive">
+            <table class="table table-hover table-striped align-middle text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Tên</th>
+                        <th>Danh mục</th>
+                        <th>Ảnh</th>
+                        <th>Mô tả</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($products as $product)
+                        <tr>
+                            <td><strong>{{ $product->id }}</strong></td>
+                            <td>{{ $product->name }}</td>
+                            <td><span class="badge bg-success">{{ $product->category->name }}</span></td>
+                            <td>
+                                @if ($product->avatar)
+                                    <img src="{{ asset('storage/' . $product->avatar) }}" class="img-thumbnail"
+                                        width="60">
+                                @else
+                                    <span class="text-muted">Không có ảnh</span>
+                                @endif
+                            </td>
+                            <td class="text-truncate" style="max-width: 200px;">{{ $product->description }}</td>
+                            <td>
+                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Sửa
+                                </a>
+                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="d-inline"
+                                    onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i> Xóa
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 @endsection
