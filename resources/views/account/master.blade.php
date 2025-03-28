@@ -2,7 +2,7 @@
 <html lang="vi">
 
 <head>
-    <title>@yield('tiltle')</title>
+    <title>@yield('title')</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="{{ asset('account/images/icons/favicon.ico') }}" />
@@ -28,7 +28,19 @@
     <div class="limiter">
         <div class="container-login100" style="background-image: url('{{ asset('account/images/bg-01.jpg') }}');">
             <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
-                <form class="login100-form validate-form">
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
 
                     @yield('content')
 
@@ -53,8 +65,6 @@
                     <div class="text-center">
                         <a href="{{ route('home') }}" class="badge badge-success">Quay lại trang chủ</a>
                     </div>
-                    
-                </form>
             </div>
         </div>
     </div>

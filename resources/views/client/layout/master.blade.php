@@ -19,6 +19,8 @@
 
     <link rel="stylesheet" href="{{ asset('client/css/style.css') }}">
 
+    <link rel="icon" type="image/png" href="{{ asset('logo.ico') }}">
+
     <style>
         body {
             font-family: "Roboto", sans-serif;
@@ -32,7 +34,20 @@
 
     <div class="site-wrap">
         <header class="site-navbar" role="banner">
+            @if (session('success'))
+                <div class="alert alert-success text-center">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger text-center">
+                    {{ session('error') }}
+                </div>
+            @endif
+
             @include('client.layout.navbar')
+
         </header>
 
         @if (request()->routeIs('home'))

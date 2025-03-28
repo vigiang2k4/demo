@@ -21,6 +21,7 @@
     <script src="{{ asset('admin/js/chart.js') }}"></script>
 
     <link rel="icon" href="{{ asset('logo.png') }}" type="image/x-icon">
+    <link rel="icon" type="image/png" href="{{ asset('logo.ico') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('tilte')</title>
 </head>

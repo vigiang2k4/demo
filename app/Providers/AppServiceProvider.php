@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repositories\Account\AccountRepository;
+use App\Repositories\Account\AccountRepositoryInterface;
+
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 
@@ -29,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ProductRepositoryInterface::class, ProductRepository::class);
         $this->app->bind(ColorRepositoryInterface::class, ColorRepository::class);
         $this->app->bind(SizeRepositoryInterface::class, SizeRepository::class);
+        $this->app->bind(AccountRepositoryInterface::class, AccountRepository::class);
     }
 
     /**

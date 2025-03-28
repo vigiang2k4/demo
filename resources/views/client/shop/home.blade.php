@@ -28,7 +28,7 @@
                                     <p class="mb-0">{{ Str::limit($product->description, 50) }}</p>
                                     @if ($product->cheapest_variant)
                                         <p class="text-primary font-weight-bold">
-                                            {{ number_format($product->cheapest_variant->price, 2) }} VND
+                                            {{ number_format($product->cheapest_variant->price) }} VND
                                         </p>
                                     @else
                                         <p class="text-secondary">Chưa có giá</p>
