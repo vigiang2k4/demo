@@ -22,8 +22,9 @@ class ProductRequest extends FormRequest
 
             // Avatar chỉ bắt buộc khi tạo mới
             'avatar' => $isUpdating ? 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240' : 'required|image|mimes:jpeg,png,jpg,gif|max:10240',
-
             'image.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
+
+            'status' => 'required|in:0,1',
 
             'variants' => 'nullable|array',
             'variants.*.color_id' => 'required_with:variants|exists:colors,id',
@@ -39,6 +40,9 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
+            'status.required' => 'Trạng thái không được để trống.',
+            'status.in' => 'Trạng thái không hợp lệ.',
+
             'name.required' => 'Tên sản phẩm không được để trống.',
             'category_id.required' => 'Vui lòng chọn danh mục.',
             'category_id.exists' => 'Danh mục không hợp lệ.',

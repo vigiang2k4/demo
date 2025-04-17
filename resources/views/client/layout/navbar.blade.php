@@ -18,37 +18,38 @@
             <div class="col-6 col-md-4 order-3 order-md-3 text-right">
                 <div class="site-top-icons">
                     <ul>
-                        <li>
+                        <li class="nav-item dropdown">
                             @auth
-                                <div class="dropdown">
-                                    <a class="dropdown-toggle" data-toggle="dropdown">
-                                        <span class="icon icon-person"></span> {{ Auth::user()->name ?? Auth::user()->email }}
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <!-- Điều hướng đến profile dựa trên role -->
-                                        <li>
-                                            <a
-                                                href="{{ Auth::user()->role == 1 ? route('admin.dashboard') : route('user.dashboard') }}">
-                                                <i class="fa fa-user"></i> Trang cá nhân
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <form action="{{ route('logout') }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-link">
-                                                    <i class="fa fa-sign-out"></i> Đăng xuất
-                                                </button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </div>
+                                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="icon icon-person m-2"></i>
+                                    <span>{{ Auth::user()->name ?? Auth::user()->email }}</span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end shadow animated fadeIn text-center">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ Auth::user()->role == 1 ? route('admin.dashboard') : route('user.dashboard') }}">
+                                            <i class="fa fa-user me-2"></i> Trang cá nhân
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('logout') }}" method="POST" class="px-3">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger" onclick="return confirm('Bạn có muốn đăng xuất không?')">
+                                                <i class="fa fa-sign-out me-2"></i> Đăng xuất
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
                             @else
-                                <!-- Nếu chưa đăng nhập, hiển thị nút đăng nhập -->
-                                <a href="{{ route('login') }}">
-                                    <span class="icon icon-person"></span>
+                                <a class="nav-link" href="{{ route('login') }}">
+                                    <i class="icon icon-person"></i>
                                 </a>
                             @endauth
                         </li>
+                        
 
                         <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                         <li>

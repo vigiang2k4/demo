@@ -20,6 +20,7 @@
                         <th>Danh mục</th>
                         <th>Ảnh</th>
                         <th>Mô tả</th>
+                        <th>Trạng thái</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -38,6 +39,12 @@
                                 @endif
                             </td>
                             <td class="text-truncate" style="max-width: 200px;">{{ $product->description }}</td>
+                            <td>
+                                @if ($product->status == 1)
+                                    <span class="badge bg-success">Hiện</span>
+                                @else
+                                    <span class="badge bg-danger">Ẩn</span>
+                                @endif
                             <td>
                                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> Sửa

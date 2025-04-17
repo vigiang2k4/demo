@@ -17,17 +17,17 @@
 
             <!-- Dropdown menu -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item bg-red text-center" href="">
+                <a class="dropdown-item bg-red text-center" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Quay về trang chủ
                 </a>
-                <a class="dropdown-item bg-red text-center" href="">
+                <a class="dropdown-item bg-red text-center" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Hồ sơ
                 </a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item bg-yellow" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <form action="" method="POST" class=" text-center">
+                    <form action="{{ route('logout') }}" method="POST" class=" text-center">
                         @csrf
                         <button type="submit" class="btn badge bg-danger" onclick="return confirm('chắc chắn đằng xuất')">Đăng xuất</button>
                     </form>

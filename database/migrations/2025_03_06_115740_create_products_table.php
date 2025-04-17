@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
             $table->string('description')->nullable();
             $table->string('avatar')->nullable();
+            $table->tinyInteger('status')->default(1); // 1: active, 0: inactive
+            $table->string('message')->nullable();
             $table->timestamps();
 
             $table->fullText('description');

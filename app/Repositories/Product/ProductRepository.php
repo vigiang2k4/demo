@@ -37,21 +37,25 @@ class ProductRepository implements ProductRepositoryInterface
         try {
             $product = Product::create([
                 'name' => $data['name'],
+                'status' =>  $data['status'],
                 'category_id' => $data['category_id'],
                 'description' => $data['description'] ?? null,
                 'avatar' => $data['avatar'] ?? null,
             ]);
 
+            // Lưu hình ảnh bộ sưu tập
             if (!empty($data['image'])) {
                 foreach ($data['image'] as $imagePath) {
-                    $product->images()->create(['image' => $imagePath]);
+                    $product->images()->create([
+                        'image' => $imagePath,
+                    ]);
                 }
             }
 
+            // Lưu biến thể sản phẩm
             if (!empty($data['variants'])) {
                 foreach ($data['variants'] as $variant) {
-                    Variant::create([
-                        'product_id' => $product->id,
+                    $product->variants()->create([
                         'color_id' => $variant['color_id'],
                         'size_id' => $variant['size_id'],
                         'quantity' => $variant['quantity'],
@@ -65,9 +69,11 @@ class ProductRepository implements ProductRepositoryInterface
             return $product;
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Product creation failed: ' . $e->getMessage());
             throw $e;
         }
     }
+
 
     public function update($id, $data)
     {
@@ -84,6 +90,7 @@ class ProductRepository implements ProductRepositoryInterface
 
             $product->update([
                 'name' => $data['name'],
+                'status' => $data['status'],
                 'category_id' => $data['category_id'],
                 'description' => $data['description'] ?? null,
                 'avatar' => $data['avatar'] ?? $product->avatar,

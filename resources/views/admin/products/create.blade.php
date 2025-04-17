@@ -121,6 +121,18 @@
 
         <button type="button" id="add-variant" class="btn btn-primary">Thêm biến thể</button>
 
+        {{-- Trạng thái sản phẩm --}}
+        <div class="mb-3 mt-4">
+            <label for="status" class="form-label">Trạng thái</label>
+            <select name="status" class="form-select @error('status') is-invalid @enderror">
+                <option value="1" selected>Hiện</option>
+                <option value="0">Ẩn</option>
+            </select>
+            @error('status')
+                <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
         {{-- Nút submit --}}
         <div class="mt-4 text-center mb-5">
             <button type="submit" class="btn btn-success">Thêm mới</button>

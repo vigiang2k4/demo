@@ -4,11 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
-use App\Models\User;
 use App\Repositories\Account\AccountRepository;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -75,8 +71,6 @@ class AccountController extends Controller
         return view('account.reset');
     }
     public function pasword_() {}
-    public function verify() {}
-    public function verify_() {}
     public function logout()
     {
         $this->AccountRepo->logout();

@@ -39,9 +39,6 @@ Route::controller(AccountController::class)->group(function () {
     // Đặt lại mật khẩu sau khi send mail
     Route::get('password/reset/{token}', 'password')->name('password');
     Route::post('password/reset', 'password_')->name('password_');
-    // Xác thực email
-    Route::get('verify', 'verify')->name('verify')->middleware('auth');
-    Route::get('verify/{id}/{hash}', 'verifydone')->name('verifydone');
 
     // Đăng xuất
     Route::post('logout', 'logout')->name('logout');
@@ -49,22 +46,30 @@ Route::controller(AccountController::class)->group(function () {
 
 // Route cho Admin
 Route::controller(AdminController::class)->middleware(['admin'])->group(function () {
-    Route::get('/admin/dashboard',  'index')->name('admin.dashboard');
+    Route::get('admin/dashboard',  'index')->name('admin.dashboard');
 
-    Route::Resource('categories', CategoryController::class);
-    Route::Resource('products', ProductController::class);
-    Route::Resource('colors', ColorController::class);
-    Route::Resource('sizes', SizeController::class);
+    Route::Resource('admin/categories', CategoryController::class);
+    Route::Resource('admin/products', ProductController::class);
+    Route::Resource('admin/colors', ColorController::class);
+    Route::Resource('admin/sizes', SizeController::class);
 });
 
 // Route cho User
 Route::controller(UserController::class)->middleware(['user'])->group(function () {
-    Route::get('user/dashboard', 'user')->name('user.dashboard');
+    Route::get('user/dashboard', 'index')->name('user.dashboard');
+    Route::get('user/profile', 'profile')->name('user.profile');
+});
+
+
+// Route cho User
+Route::controller(UserController::class)->middleware(['user'])->group(function () {
+    Route::get('dashboard', 'index')->name('user.dashboard');
+    Route::get('profile', 'profile')->name('user.profile');
 });
 
 // Route cho client
 Route::controller(ClientController::class)->group(function () {
-    Route::get('', 'index')->name('home');
+    Route::get('/', 'index')->name('home');
     Route::get('detail/{id}', 'show')->name('detail');
     Route::get('shop', 'shop')->name('shop');
     Route::get('about', 'about')->name('about');
