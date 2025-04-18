@@ -53,7 +53,7 @@
 
                         <li><a href="#"><span class="icon icon-heart-o"></span></a></li>
                         <li>
-                            <a href="cart.html" class="site-cart">
+                            <a href="{{ route('carts.index') }}" class="site-cart">
                                 <span class="icon icon-shopping_cart"></span>
                                 <span class="count">2</span>
                             </a>
@@ -71,19 +71,19 @@
     <div class="container">
         <ul class="site-menu js-clone-nav d-none d-md-block">
             <li>
-                <a href="{{ route('home') }}">Home</a>
+                <a href="{{ route('home') }}">Trang Chủ</a>
             </li>
             <li class="has-children">
-                <a href="$">Categories</a>
+                <a href="$">Danh Mục</a>
                 <ul class="dropdown">
                     <li><a href="#">Categories One</a></li>
                     <li><a href="#">Categories Two</a></li>
                     <li><a href="#">Categories Three</a></li>
                 </ul>
             </li>
-            <li><a href="{{ route('shop') }}">Shop</a></li>
-            <li><a href="{{ route('about') }}">About</a></li>
-            <li><a href="{{ route('contact') }}">Contact</a></li>
+            <li><a href="{{ route('shop') }}">Cửa Hàng</a></li>
+            <li><a href="{{ route('about') }}">Về Chúng Tôi</a></li>
+            <li><a href="{{ route('contact') }}">Liên Hệ</a></li>
         </ul>
     </div>
 </nav>

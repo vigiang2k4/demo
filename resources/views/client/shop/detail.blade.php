@@ -29,14 +29,16 @@
 
                     <!-- Bộ sưu tập hình ảnh -->
                     <div class="d-flex flex-wrap">
-                        <img class="small-image mr-2 mb-2" src="{{ asset('storage/' . $product->avatar) }}" alt="Main Image"
-                            width="100" height="60" style="object-fit: cover; cursor: pointer;">
+                        <img class="small-image mr-2 mb-2 border p-1" src="{{ asset('storage/' . $product->avatar) }}"
+                            alt="Main Image" width="100" height="60" style="object-fit: cover; cursor: pointer;">
                         @foreach ($product->images as $image)
-                            <img src="{{ asset('storage/' . $image->image) }}" width="100" height="60"
-                                class="rounded border p-1">
+                            <img class="small-image mr-2 mb-2 border p-1" src="{{ asset('storage/' . $image->image) }}"
+                                alt="Gallery Image" width="100" height="60"
+                                style="object-fit: cover; cursor: pointer;">
                         @endforeach
                     </div>
                 </div>
+
 
                 <!-- Thông tin sản phẩm -->
                 <div class="col-md-6">
@@ -50,7 +52,9 @@
                             @foreach ($product->variants as $variant)
                                 <button class="btn btn-outline-dark variant-btn mr-2 mb-2"
                                     data-avatar="{{ asset('storage/' . $variant->avatar) }}"
-                                    data-price="{{ number_format($variant->price, 2) }} VND">
+                                    data-price="{{ number_format($variant->price, 2) }} VND"
+                                    data-quantity="{{ $variant->quantity }}"
+                                    {{ $variant->quantity < 1 ? 'disabled' : '' }}>
                                     {{ $variant->size->name }} - {{ $variant->color->name }}
                                 </button>
                             @endforeach
@@ -68,14 +72,13 @@
                             <div class="input-group-prepend">
                                 <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                             </div>
-                            <input type="text" class="form-control text-center" value="1">
+                            <input type="text" id="quantity-input" class="form-control text-center" value="1">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                             </div>
                         </div>
                     </div>
-
-                    <p><a href="#" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
+                    <p><a href="{{ route('carts.store', $product->id)}}" class="buy-now btn btn-sm btn-primary">Add To Cart</a></p>
                 </div>
             </div>
         </div>
@@ -122,33 +125,84 @@
             </div>
         </div>
     </div>
-@endsection
 
-@section('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const variantButtons = document.querySelectorAll('.variant-btn');
             const productAvatar = document.getElementById('product-avatar');
             const productPrice = document.getElementById('product-price');
             const smallImages = document.querySelectorAll('.small-image');
+            const quantityInput = document.getElementById('quantity-input');
+            const btnMinus = document.querySelector('.js-btn-minus');
+            const btnPlus = document.querySelector('.js-btn-plus');
 
-            // Sự kiện thay đổi avatar & giá khi chọn biến thể
+            let basePrice = parseFloat("{{ $product->variants->first()->price }}");
+            let maxQuantity = parseInt("{{ $product->variants->first()->quantity }}");
+
+            // Cập nhật tổng giá
+            function updateTotalPrice() {
+                let quantity = parseInt(quantityInput.value);
+                if (isNaN(quantity) || quantity < 1) quantity = 1;
+                if (quantity > maxQuantity) quantity = maxQuantity;
+
+                quantityInput.value = quantity;
+
+                const total = basePrice * quantity;
+                productPrice.textContent = total.toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                });
+            }
+
+            // Nút giảm số lượng
+            btnMinus.addEventListener('click', function() {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity > 1) {
+                    quantityInput.value = quantity - 1;
+                    updateTotalPrice();
+                }
+            });
+
+            // Nút tăng số lượng
+            btnPlus.addEventListener('click', function() {
+                let quantity = parseInt(quantityInput.value);
+                if (quantity < maxQuantity) {
+                    quantityInput.value = quantity + 1;
+                    updateTotalPrice();
+                } else {
+                    alert("Số lượng vượt quá tồn kho của biến thể này!");
+                }
+            });
+
+            // Nếu người dùng nhập tay
+            quantityInput.addEventListener('input', updateTotalPrice);
+
+            // Khi chọn biến thể
             variantButtons.forEach(button => {
                 button.addEventListener('click', function() {
+                    if (this.disabled) return;
+
                     const newAvatar = this.getAttribute('data-avatar');
-                    const newPrice = this.getAttribute('data-price');
+                    const newPrice = this.getAttribute('data-price').replace(/[^\d.]/g, '');
+                    const newQuantity = parseInt(this.getAttribute('data-quantity'));
 
                     productAvatar.src = newAvatar;
-                    productPrice.textContent = newPrice;
+                    basePrice = parseFloat(newPrice);
+                    maxQuantity = newQuantity;
+
+                    quantityInput.value = 1;
+                    updateTotalPrice();
                 });
             });
 
-            // Sự kiện thay đổi avatar khi chọn ảnh từ bộ sưu tập
+            // Khi click ảnh nhỏ
             smallImages.forEach(image => {
                 image.addEventListener('click', function() {
                     productAvatar.src = this.src;
                 });
             });
+
+            updateTotalPrice(); // chạy lần đầu
         });
     </script>
 @endsection

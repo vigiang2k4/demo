@@ -7,7 +7,8 @@ use App\Http\Controllers\Admin\ColorController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SizeController;
 use App\Http\Controllers\Client\ClientController;
-
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\CheckOutController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -56,15 +57,11 @@ Route::controller(AdminController::class)->middleware(['admin'])->group(function
 
 // Route cho User
 Route::controller(UserController::class)->middleware(['user'])->group(function () {
-    Route::get('user/dashboard', 'index')->name('user.dashboard');
-    Route::get('user/profile', 'profile')->name('user.profile');
-});
-
-
-// Route cho User
-Route::controller(UserController::class)->middleware(['user'])->group(function () {
     Route::get('dashboard', 'index')->name('user.dashboard');
     Route::get('profile', 'profile')->name('user.profile');
+
+    Route::Resource('carts', CartController::class);
+    Route::Resource('checkout', CheckOutController::class);
 });
 
 // Route cho client

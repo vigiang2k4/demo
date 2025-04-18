@@ -8,6 +8,9 @@ use App\Repositories\Account\AccountRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
 
+use App\Repositories\Cart\CartRepository;
+use App\Repositories\Cart\CartRepositoryInterface;
+
 use App\Repositories\Product\ProductRepositoryInterface;
 use App\Repositories\Product\ProductRepository;
 
@@ -33,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ColorRepositoryInterface::class, ColorRepository::class);
         $this->app->bind(SizeRepositoryInterface::class, SizeRepository::class);
         $this->app->bind(AccountRepositoryInterface::class, AccountRepository::class);
+        $this->app->bind(CartRepositoryInterface::class, CartRepository::class);
     }
 
     /**

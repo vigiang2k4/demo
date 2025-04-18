@@ -19,11 +19,10 @@ class CartItem extends Model
     {
         return $this->belongsTo(Variant::class);
     }
-    
+
     // Tính toán total tự động
     public function calculateTotal()
     {
         $this->total = $this->quantity * $this->price;
     }
-
 }

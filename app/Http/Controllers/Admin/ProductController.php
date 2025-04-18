@@ -91,7 +91,7 @@ class ProductController extends Controller
     {
         try {
             $this->productRepo->update($id, $request->validated());
-            return redirect()->route('products.index')->with('success', 'Sản phẩm đã được cập nhật.');
+            return redirect()->back()->with('success', 'Sản phẩm đã được cập nhật.');
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra, vui lòng thử lại.');
         }

@@ -31,7 +31,7 @@ class ClientController extends Controller
     public function index()
     {
         try {
-            $products = $this->productRepo->getAll();
+            $products = $this->productRepo->getAll()->where('status', 1);
 
             $products = $products->map(function ($product) {
                 $product->cheapest_variant = $product->variants->sortBy('price')->first();
